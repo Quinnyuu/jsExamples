@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/style.css" rel="stylesheet">
+    <script>
+        window.onload = function () {
+            var oBox = document.getElementById('box');
+            var oView = document.getElementById('views');
+            var oList = document.getElementById('list');
+            var oBarLeft = document.getElementsByClassName('bar-left')[0];
+            var oBarRight = document.getElementsByClassName('bar-right')[0];
+            var oScroll = document.getElementsByClassName('scroll')[0];
+            var oScrollBar = document.getElementsByClassName('bar-main')[0];
+            var minL = 20;
+            var maxL = oScrollBar.offsetWidth - oScroll.offsetWidth + 30;
+            var timer = null;
+            var iScale = 0;
+            //滑动条的滑动
+            oScroll.onmousedown = function (ev) {
+                var e = ev || window.event;
+                iX = e.clientX - oScroll.offsetLeft;
+                document.onmousemove = function (ev) {
+                    var e = ev || window.event;
+                    var l = e.clientX - iX;
+                    if(l <= minL) l = minL;
+                    if(l >= maxL) l = maxL;
+                    iScale = l / maxL;
+                    oScroll.style.left = l + 'px';
+                    isBorder();
+                    return false;
+                }
+                document.onmouseup = function () {
+                    startMove(oView,(-parseInt((oView.offsetWidth - oList.offsetWidth) * iScale)));
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                }
+                return false;
+            }
+
+            oScroll.onclick = function (ev) {
+                var e = ev || window.event;
+                e.cancelBubble = true;
+            }
+
+            //按住左右控件
+            oBarRight.onmouseover = oBarLeft.onmouseover = document.onkeydown = function (ev) {
+                clearInterval(timer);
+                var e = ev || window.event;
+                var speed = 0;
+                if(this == oBarRight || ev.keyCode == 39){
+                    speed = 5;
+                }
+                if(this == oBarLeft || ev.keyCode == 37){
+                    speed = -5;
+                }
+                timer = setInterval(function () {
+                   together(getStyle(oScroll,'left') + speed,1);
+                },30);
+            }
+            oBarRight.onmouseout = oBarLeft.onmouseout = document.onkeyup = function () {
+                clearInterval(timer);
+            }
+
+            //滑动条的点击滑动
+            oScrollBar.onclick = function (ev) {
+                var e = ev || window.event;
+                together(parseInt(e.clientX - this.offsetLeft - oBox.offsetLeft - oScroll.offsetWidth / 2));
+            }
+
+
+            //将图片与滑动栏同步
+            function together(iTarget,buffer) {
+                if(iTarget <= minL){
+                    timer && clearInterval(timer);
+                    iTarget = minL;
+                }
+                if(iTarget >=maxL){
+                    timer && clearInterval(timer);
+                    iTarget = maxL;
+                }
+                iScale = iTarget / maxL;
+                startMove(oView,(-parseInt((oView.offsetWidth - oList.offsetWidth) * iScale)),buffer);
+                startMove(oScroll,iTarget,buffer,function () {
+                    isBorder()
+                });
+            }
+
+            function startMove(node,iTarget,buffer,fnEnd) {
+                clearInterval(node.timer);
+                node.timer = setInterval(function () {
+                    var speed = (iTarget - node.offsetLeft) / (buffer || 5);
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                    if(node.offsetLeft == iTarget){
+                        clearInterval(node.timer);
+                        fnEnd && fnEnd();
+                    }else{
+                        node.style.left = node.offsetLeft + speed + 'px';
+                    }
+                },25);
+
+            }
+
+            //判断是否到达边界
+            function isBorder() {
+                if(oScroll.offsetLeft == '20'){
+                    oBarLeft.style.background = "url('css/img/barl2.png')"
+                }else{
+                    oBarLeft.style.background = "url('css/img/barl1.png')"
+                }
+                if(oScroll.offsetLeft == maxL){
+                    oBarRight.style.background = "url('css/img/barr2.png')"
+                }else{
+                    oBarRight.style.background = "url('css/img/barr1.png')"
+                }
+            }
+
+            //获取样式
+            function getStyle(node,attr) {
+                return parseFloat(node.currentStyle ? node.currentStyle[attr] : getComputedStyle(node)[attr]);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div id="list">
+            <ul id="views">
+                <li>
+                    <img src="css/img/2.jpg">
+                    <span>仙女1</span>
+                </li>
+                <li>
+                    <img src="css/img/3.jpg">
+                    <span>仙女2</span>
+                </li>
+                <li>
+                    <img src="css/img/4.jpg">
+                    <span>仙女3</span>
+                </li>
+                <li>
+                    <img src="css/img/5.jpg">
+                    <span>仙女4</span>
+                </li>
+                <li>
+                    <img src="css/img/6.jpg">
+                    <span>仙女5</span>
+                </li>
+                <li>
+                    <img src="css/img/7.jpg">
+                    <span>仙女6</span>
+                </li>
+                <li>
+                    <img src="css/img/8.jpg">
+                    <span>仙女7</span>
+                </li>
+            </ul>
+        </div>
+        <div id="scrollbar">
+            <div class="bar-left"></div>
+            <div class="bar-main">
+                <div class="scroll"></div>
+            </div>
+            <div class="bar-right"></div>
+        </div>
+    </div>
+</body>
+</html>

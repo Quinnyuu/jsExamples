@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #selectbar{height: 30px;width: 330px;position: relative;margin: 10px auto;background: rgb(246,246,246);}
+        #icon{height: 30px;width: 30px;position: absolute;left: 0;}
+        #icon img{height: 100%;}
+        #select{height: 30px;width: 220px;position: absolute;left: 30px;line-height: 30px;font: 15px Arial;color: #828282;}
+        #select img{height: 30%;position: absolute;right: 10px;top:10px;}
+        #searchbox{height: 30px;position: absolute;left: 250px;width: 80px;}
+        #search {height: 100%;width: 100%;border: 0;color:white;font: 20px Arial;background: #ffd02d;}
+        #selectbar .sub{position: absolute;top:30px;left: 30px;height: auto;width: 220px;background:rgb(246,246,246);font: 15px Arial;color: #4d6c26;display: none;}
+        #selectbar .sub li{list-style: none;padding:5px 5px 0;height: 30px;width: 210px;border-bottom: #b3b0b0 1px dashed;}
+        #selectbar .sub li.selected{background:#ffd02d;color: white;}
+    </style>
+    <script>
+        window.onload = function () {
+            var aLis = document.getElementsByTagName('li');
+            var oTxt = document.getElementById('game');
+            var oDown = document.getElementById('down');
+            var oUl = document.getElementsByTagName('ul')[0];
+            var isDown = false;
+            oDown.onclick = function () {
+                if(isDown){
+                    oUl.style.display = 'none';
+                    isDown = false;
+                }else{
+                    oUl.style.display = 'block';
+                    isDown = true;
+                }
+            }
+            for(var i = 0;i < aLis.length;i++){
+                aLis[i].onmouseover = function () {
+                    for(var j = 0;j < aLis.length;j++){
+                        aLis[j].className = '';
+                    }
+                    this.className = 'selected';
+                }
+                aLis[i].onclick = function () {
+                    oTxt.innerHTML = this.innerHTML;
+                    oUl.style.display = 'none';
+                    isDown = false;
+                }
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <div id="selectbar">
+        <div id="icon">
+            <img src="search.jpg">
+        </div>
+        <div id="select">
+            <span id="game">请选择游戏名称</span>
+            <img id='down' src="down.jpg">
+        </div>
+        <ul class="sub">
+            <li class="selected">地下城与勇士</li>
+            <li>英雄联盟</li>
+            <li>开心消消乐</li>
+            <li>明日方舟</li>
+            <li>绝地求生</li>
+        </ul>
+        <div id="searchbox">
+            <button id="search">search</button>
+        </div>
+    </div>
+</body>
+</html>

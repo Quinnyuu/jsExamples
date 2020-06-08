@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box{height: 500px;width: 500px;position: absolute;margin-left: 40%;}
+        label{width: 100%;height: 300px;}
+        input{margin: 10px;}
+        button{margin: 10px 25px 10px ;}
+        #div1{height: 200px;width: 200px;background: #a0f896;margin-top: 20px;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oDiv = document.getElementById('div1');
+            var oChange = document.getElementById('change');
+            var oReset = document.getElementById('reset');
+            var aInputs = document.getElementsByTagName('input');
+
+            oChange.onclick = function () {
+                change(oDiv,aInputs[0].value,aInputs[1].value);
+            }
+            oReset.onclick = function () {
+                oDiv.removeAttribute('style');
+            }
+        }
+        function change(node,attr,value) {
+            node.style[attr] = value;
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <lable>
+            属性名：<input type="text" id="attr" value="background"><br/>
+            属性值：<input type="text" id="value" value="yellow"><br>
+            <button id="change">确定</button>
+            <button id="reset">重置</button>
+        </lable>
+        <div id="div1">
+            在上方输入框输入"属性名"及"属性值"，点击确定按钮查看效果
+        </div>
+    </div>
+
+</body>
+</html>

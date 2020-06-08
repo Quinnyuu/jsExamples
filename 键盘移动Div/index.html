@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding:0;}
+        #box{height: 400px;width: 1000px;background: #ebffc0;position: relative;margin: 10px auto;}
+        #tips{height: 300px;border: #ffd02d 2px dashed;width: 300px;position: absolute;left: 20px;top:48px;}
+        #div1{height: 100px;width: 100px;background: #acdc60;position: absolute;left: 600px;top:100px;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oDiv = document.getElementById('div1');
+            var toLeft = toRight = toUp = toDown = false;
+            var timer = null;
+            document.onkeydown = function (ev) {
+                var e = ev || window.event;
+                var isCtrl = e.ctrlKey;
+                switch(e.keyCode){
+                    case 39:
+                        toRight = true;
+                        break;
+                    case 37:
+                        toLeft = true;
+                        break;
+                    case 38:
+                        if(isCtrl){
+                            var oldWidth = oDiv.offsetWidth;
+                            var oldHeight = oDiv.offsetHeight;
+                            oDiv.style.width = oDiv.offsetWidth * 1.5 + 'px';
+                            oDiv.style.height = oDiv.offsetHeight * 1.5 + 'px';
+                            oDiv.style.left = oDiv.offsetLeft - (oDiv.offsetWidth - oldWidth) / 2 + 'px';
+                            oDiv.style.top = oDiv.offsetTop - (oDiv.offsetHeight - oldHeight) / 2 + 'px';
+                        }else{
+                            toUp = true;
+                        }
+                        break;
+                    case 40:
+                        if(isCtrl){
+                            var oldWidth = oDiv.offsetWidth;
+                            var oldHeight = oDiv.offsetHeight;
+                            oDiv.style.width = oDiv.offsetWidth * 0.5 + 'px';
+                            oDiv.style.height = oDiv.offsetHeight * 0.5 + 'px';
+                            oDiv.style.left = oDiv.offsetLeft - (oDiv.offsetWidth - oldWidth) / 2 + 'px';
+                            oDiv.style.top = oDiv.offsetTop - (oDiv.offsetHeight - oldHeight) / 2 + 'px';
+                        }else{
+                            toDown = true;
+                        }
+                        break;
+                    case 97:isCtrl && (oDiv.style.background = 'green');break;
+                    case 98:isCtrl && (oDiv.style.background = 'yellow');break;
+                    case 99:isCtrl && (oDiv.style.background = 'blue');break;
+                    default:break;
+                }
+            }
+
+            document.onkeyup = function (ev) {
+                var e = ev || window.event;
+                switch(e.keyCode){
+                    case 39:
+                        toRight = false;
+                        break;
+                    case 37:
+                        toLeft = false;
+                        break;
+                    case 38:
+                        toUp = false;
+                        break;
+                    case 40:
+                        toDown = false;
+                        break;
+                    default:break;
+                }
+            }
+
+
+            timer = setInterval(function () {
+                if(toLeft){
+                    oDiv.style.left = oDiv.offsetLeft - 10 + 'px';
+                }
+                if(toRight){
+                    oDiv.style.left = oDiv.offsetLeft + 10 + 'px';
+                }
+                if(toUp){
+                    oDiv.style.top = oDiv.offsetTop - 10 + 'px';
+                }
+                if(toDown){
+                    oDiv.style.top = oDiv.offsetTop + 10 + 'px';
+                }
+                limit();
+            },80);
+
+            function limit() {
+                var winWidth = document.documentElement.clientWidth || document.body.clientWidth;
+                var winHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                console.log(winWidth+ '.......' +winHeight );
+                console.log(oDiv.offsetLeft+ '.......' +oDiv.offsetTop );
+
+                if(oDiv.offsetLeft <= 0){
+                    oDiv.style.left = 0;
+                }
+                if(oDiv.offsetTop <= 0){
+                    oDiv.style.top = 0;
+                }
+                if(oDiv.offsetLeft >= winWidth - oDiv.offsetWidth){
+                    oDiv.style.left = winWidth - oDiv.offsetWidth + 'px';
+                }
+                if(oDiv.offsetTop >= winHeight - oDiv.offsetHeight){
+                    oDiv.style.top = winHeight - oDiv.offsetHeight + 'px';
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div id="tips">
+            红色方块为键盘操作区域，您可以进行如下操作：<br/>
+            <br/>
+            上：↑ 下：↓ 左：← 右：→<br/>
+            <br/>
+            Ctrl + 1 : 背景变为绿色
+            Ctrl + 2 : 背景变为黄色
+            Ctrl + 3 : 背景变为蓝色
+            Ctrl + ↑ : 放大
+            Ctrl + ↓ : 缩小
+        </div>
+    </div>
+    <div id="div1"></div>
+</body>
+</html>

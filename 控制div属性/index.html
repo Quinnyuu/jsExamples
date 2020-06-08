@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet " type="text/css" href="style.css"></link>
+    <script>
+        window.onload = function () {
+            var oChangeW = document.getElementById('change-width');
+            var oChangeH = document.getElementById('change-height');
+            var oChangeC = document.getElementById('change-color');
+            var oHidden = document.getElementById('hidden');
+            var oReset = document.getElementById('reset');
+            var oDiv = document.getElementById('box');
+            var iColor = oDiv.style.background;
+            
+            oChangeW.onclick = function () {
+                oDiv.style.width = 200 + 'px';
+            }
+            oChangeH.onclick = function () {
+                oDiv.style.height = 200 + 'px';
+            }
+            oChangeC.onclick = function () {
+                var color = randomColor();
+                oDiv.style.background = color;
+            }
+            oHidden.onclick = function () {
+                oDiv.style.display = 'none';
+            }
+            oReset.onclick = function () {
+                oDiv.style.height = 100 + 'px';
+                oDiv.style.width = 100 + 'px';
+                oDiv.style.background = iColor;
+                oDiv.style.display = 'block';
+            }
+            
+        }
+        
+        function randomColor() {
+            var str = '';
+            str = 'rgba(' + parseInt(Math.random() * 256) + ',' + parseInt(Math.random() * 256) + ',' + parseInt(Math.random() * 256) + ',1)';
+            return str;
+        }
+    </script>
+</head>
+<body>
+    <div id="button-bar">
+        <button id="change-width">变宽</button>
+        <button id="change-height">变高</button>
+        <button id="change-color">变色</button>
+        <button id="hidden">隐藏</button>
+        <button id="reset">重置</button>
+    </div>
+    <div id="box"></div>
+</body>
+</html>

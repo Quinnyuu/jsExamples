@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #calendar{height: 266px;width: 248px;background: #074734;position: relative;margin: 10px auto;}
+        #ul1{height: 186px;width: 248px;}
+        #ul1 li{height: 50px;width: 50px;background: #b4e5ca;list-style: none;text-align: center;float: left;margin: 5px;border: #b4e5ca 1px solid;color: white}
+        #text{height: 68px;width: 238px;margin: 5px;background: #ffffff;border: darkgray 1px solid;color: #4d6c26;}
+        .current{color: darkorange !important;border: darkorange 1px solid !important;background: white !important;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oUl = document.getElementById('ul1');
+            var aLis = oUl.getElementsByTagName('li');
+            var oTxt = document.getElementById('text');
+            var arr = ['<span >1月节日</span><br/><span style="font-size: small;">元旦：1月1日至3日放假三天。</span>',
+                        '<span >2月节日</span><br/><span style="font-size: small;">春节：2月2日至8日放假7天。</span>',
+                        '<span >3月节日</span><br/><span style="font-size: small;">妇女节：3月8日妇女节，与我无关。</span>',
+                        '<span >4月节日</span><br/><span style="font-size: small;">清明节：4月3日至5日放假3天</span>',
+                        '<span >5月节日</span><br/><span style="font-size: small;">劳动节：4月30日至5月2日放假3天。</span>',
+                        '<span >6月节日</span><br/><span style="font-size: small;">端午节：6月4日至6日放假3天。</span>',
+                        '<span >7月节日</span><br/><span style="font-size: small;">小暑：7月7日小暑。不放假。</span>',
+                        '<span >8月节日</span><br/><span style="font-size: small;">七夕节：8月6日七夕节。不放假。</span>',
+                        '<span >9月节日</span><br/><span style="font-size: small;">中秋节：9月10日至12日放假3天。</span>',
+                        '<span >10月节日</span><br/><span style="font-size: small;">国庆节：10月1日至7日放假7天。</span>',
+                        '<span >11月节日</span><br/><span style="font-size: small;">立冬：11月8日立冬。不放假。</span>',
+                        '<span >12月节日</span><br/><span style="font-size: small;">艾滋病日:12月1日<br/>废除奴隶制国际日:12月2日。</span>']
+            for (var i in aLis){
+                aLis[i].index = i;
+                aLis[i].onmousemove = function () {
+                    for(let j in aLis){
+                        aLis[j].className = '';
+                    }
+                    this.className = 'current';
+                    oTxt.innerHTML = arr[this.index];
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="calendar">
+        <ul id="ul1">
+          <li id="li1" class="current">1<br/>JAN</li>
+          <li id="li2">2<br/>FER</li>
+          <li id="li3">3<br/>MAR</li>
+          <li id="li4">4<br/>APR</li>
+          <li id="li5">5<br/>MAY</li>
+          <li id="li6">6<br/>JUN</li>
+          <li id="li7">7<br/>JUL</li>
+          <li id="li8">8<br/>AUG</li>
+          <li id="li9">9<br/>SEP</li>
+          <li id="li10">10<br/>OCT</li>
+          <li id="li11">11<br/>NOV</li>
+          <li id="li12">12<br/>DEC</li>
+        </ul>
+        <div id="text"><span >1月节日</span><br/><span style="font-size: small;">元旦：1月1日至3日放假三天。</span></div>
+    </div>
+</body>
+</html>

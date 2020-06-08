@@ -1,0 +1,80 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#box{
+    width: 600px;
+    height: 300px;
+    background: #def1bd;
+    position: relative;
+    margin: 20px auto;
+}
+
+#list{
+    width: 480px;
+    height: 150px;
+    background: rgb(10,10,10);
+    position: absolute;
+    margin:50px;
+    overflow: hidden;
+}
+
+#views{
+    height: 140px;
+    width: 850px;
+    list-style-type: none;
+    position: absolute;
+}
+
+#views li {
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+    float: left;
+}
+#views li span{
+    color: white;
+    margin-left: 30px;
+}
+
+#views li img{
+    height: 100%;
+    width: 100%;
+}
+
+#scrollbar{
+    width: 480px;
+    height: 20px;
+    position: absolute;
+    margin: 50px;
+    top: 180px;
+    display: flex;
+    border-radius: 30px;
+    overflow: hidden;
+
+}
+
+#scrollbar .bar-left{
+    background: url('img/barl1.png');
+    flex: 1;
+}
+
+#scrollbar .bar-main{
+    background: rgb(10,10,10);
+    flex: 18;
+}
+
+#scrollbar .scroll{
+    background: url("img/scroll.png");
+    width: 149px;
+    height: 100%;
+    border-radius: 50px;
+    position: absolute;
+    left: 20px;
+}
+
+#scrollbar .bar-right{
+    background: url('img/barr1.png');
+    flex: 1;
+}

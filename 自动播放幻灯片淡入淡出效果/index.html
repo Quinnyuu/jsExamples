@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #box{height: 500px;width: 600px;position: relative;margin: 30px auto;background: #ebffc0;}
+        #pics{height: 400px;width: 400px;position: absolute;top:50px;left: 50px;overflow: hidden;border: gold 2px solid;}
+        #pics li{list-style: none;}
+        #pics li img{height: 100%;width: 100%;}
+        #count{height: 500px;width: 100px;position: absolute;left: 480px;}
+        #count li{list-style: none;margin: 20px;height: 60px;width: 60px;background: #64cd53;text-align: center;line-height: 60px;color: #dcf3b8;font-size: 30px;border-radius: 50px;}
+        #count li.current{background: gold}
+    </style>
+    <script>
+        window.onload = function () {
+            var oBox = document.getElementById('box');
+            var aUls = document.getElementsByTagName('ul');
+            var aImgs = aUls[0].getElementsByTagName('li');
+            var aBtns = aUls[1].getElementsByTagName('li');
+            var timer = null;
+            var play = null;
+            var index = 0;
+            //按钮切换
+            for(var i = 0;i < aBtns.length;i++){
+                aBtns[i].index = i;
+                aBtns[i].onmouseover = function () {
+                    show(this.index);
+                }
+            }
+
+            oBox.onmouseover = function () {
+                clearInterval(play);
+            }
+
+            oBox.onmouseout = function () {
+                autoPlay();
+            }
+
+            //自动播放
+            function autoPlay() {
+                play = setInterval(function () {
+                    index++;
+                    if(index == aImgs.length){
+                        index = 0;
+                    }
+                    show(index);
+                },1000);
+            }
+
+            //淡入淡出效果
+            function show(a) {
+                index = a;
+                alpha = 0;
+                for(var i = 0;i < aBtns.length;i++){
+                    aBtns[i].className = '';
+                }
+                for(var i = 0;i < aImgs.length;i++){
+                    aImgs[i].style.display = 'none';
+                    aImgs[i].style.opacity = 0;
+                    aImgs[i].style.filter = 'alpha(opacity=0)';
+                }
+                aBtns[index].className = 'current';
+                clearInterval(timer);
+                timer = setInterval(function () {
+                    if(alpha >= 100){
+                        clearInterval(timer);
+                    }else{
+                        alpha += 5;
+                        aImgs[index].style.opacity = alpha / 100;
+                        aImgs[index].style.filter = `alpha(opacity=${alpha})`;
+                    }
+                },30);
+                aImgs[index].style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div id="pics">
+            <ul>
+                <li><img src="img/1.jpg" ></li>
+                <li><img src="img/2.jpg" ></li>
+                <li><img src="img/3.jpg" ></li>
+                <li><img src="img/4.jpg" ></li>
+                <li><img src="img/5.jpg" ></li>
+                <li><img src="img/6.jpg" ></li>
+            </ul>
+        </div>
+        <div id="count">
+            <ul>
+                <li class="current">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

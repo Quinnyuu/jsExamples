@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #calculator{height: 550px;width: 360px;position: relative;margin: 30px auto;background: #4d6c26;overflow: hidden;}
+        #formula{width: 360px;height: 40px;background: #acdc60;font-size: 20px;line-height:40px;text-align: right;}
+        #show{height: 60px;background: #acdc60;font-size: 30px;line-height:60px;text-align: right;}
+        #key{width: 100%;line-height:80px;text-align: center;color: #4d6c26;font-size: 30px;}
+        #key li{list-style: none;float: left;height: 80px;width: 80px;background: khaki;margin: 5px;}
+        #key li.btn1{background: #ffffff;}
+        #key li.btn2{height: 170px;line-height:160px;position: absolute;right: 0px;bottom: 0px;}
+        #key li.btn3{width: 170px;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oUl= document.getElementById('key');
+            var aLis = oUl.getElementsByTagName('li');
+            var oRes = document.getElementById('formula');
+            var oShow = document.getElementById('show');
+            var str='';
+            var arr = ['c','%','/','*','7','8','9','-','4','5','6','+','1','2','3','0','.','='];
+            for(var i = 1;i < aLis.length - 1;i++){
+                aLis[i].index = i;
+                aLis[i].onclick = function () {
+                    str += arr[this.index];
+                    oShow.innerHTML = str;
+                }
+            }
+            aLis[0].onclick = function () {
+                str='';
+                oShow.innerHTML = 0;
+                oRes.innerHTML = '';
+            }
+            aLis[aLis.length - 1].onclick = function () {
+                if(/[^\d]$/.test(str)){
+                    oRes.innerHTML = 'ERROR';
+                }else{
+                    var res = eval(str);
+                    str = res;
+                    oRes.innerHTML = res;
+                }
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <div id="calculator">
+        <div id="formula"></div>
+        <div id="show">0</div>
+        <ul id="key">
+            <li class="btn1">C</li>
+            <li class="btn1">%</li>
+            <li class="btn1">÷</li>
+            <li class="btn1">×</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li class="btn1">-</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li class="btn1">+</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li class="btn3">0</li>
+            <li class="btn1">.</li>
+            <li class="btn2">=</li>
+        </ul>
+    </div>
+</body>
+</html>

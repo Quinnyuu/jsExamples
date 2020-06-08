@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #clock{height: 90px;width: 500px;background: #4d6c26;position: relative;margin: 10px auto;color: white}
+        #clock input{width: 100px;height: 30px;margin:30px 10px;}
+        #clock #hour{margin-left: 40px;}
+    </style>
+    <script>
+        window.onload = function () {
+            var aInputs = document.getElementsByTagName('input');
+            setInterval(function () {
+                var d = new Date();
+                aInputs[0].value = format(d.getHours().toString());
+                aInputs[1].value = format(d.getMinutes().toString());
+                aInputs[2].value = format(d.getSeconds().toString());
+            },1000);
+            function format(time) {
+                if(time < 10){
+                    time = '0' + time;
+                }
+                return time;
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <div id="clock">
+        <input type="text" id="hour">点
+        <input type="text" id="minute">分
+        <input type="text" id="second">秒
+    </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #pic{position: absolute;left: 50px;top: 100px;}
+        #pic img{width: 30%;height: 30%;}
+    </style>
+    <script>
+        window.onload = function () {
+            var aBtns = document.getElementsByTagName('button');
+            var oPic= document.getElementById('pic');
+            var oImg = oPic.getElementsByTagName('img')[0];
+            var timer = null;
+            var n = 0;
+
+            aBtns[0].onclick = function (ev) {
+                var e = ev || window.event;
+                clearEvent();
+                e.cancelBubble = true;
+                this.innerHTML += '(已激活)';
+
+                document.onclick = function (ev) {
+                    var e = ev || window.event;
+                    var offsetX = e.clientX;
+                    var offsetY = e.clientY;
+                    oImg.src = '跳跳虎1.jpg';
+                    startMove(oPic,{x : offsetX,y : offsetY},function () {
+                        oImg.src = '跳跳虎2.jpg';
+                        console.log('1111111')
+                    });
+                }
+            }
+
+            aBtns[1].onclick = function (ev) {
+                var e = ev || window.event;
+                clearEvent();
+                var arr = [{x:oPic.offsetLeft,y : oPic.offsetTop}];
+                e.cancelBubble = true;
+                this.innerHTML += '(已激活)';
+                document.onmousedown = function (ev) {
+                    var e = ev || window.event;
+                    arr.push({x:e.clientX,y:e.clientY});
+                    document.onmousemove = function (ev) {
+                        var e = ev || window.event;
+                        arr.push({x:e.clientX,y:e.clientY});
+                        return false;
+                    }
+                    return false;
+                }
+                document.onmouseup = function () {
+                    oImg.src = '跳跳虎1.jpg';
+                    clearInterval(timer);
+                    timer = setInterval(function () {
+                        if(arr.length == 0){
+                            clearInterval(timer);
+                            oImg.src = '跳跳虎2.jpg';
+                        }else{
+                            oPic.style.left = arr[0].x + 'px';
+                            oPic.style.top = arr[0].y + 'px';
+                            arr.shift();
+                        }
+                    },20)
+                }
+            }
+
+            function startMove(node,oTarget,func) {
+                clearInterval(node.timer);
+                node.timer = setInterval(function () {
+                    var speedX = (oTarget.x - node.offsetLeft) / 5;
+                    var speedY = (oTarget.y - node.offsetTop) / 5;
+                    speedX = speedX > 0 ? Math.ceil(speedX) : Math.floor(speedX);
+                    speedY = speedY > 0 ? Math.ceil(speedY) : Math.floor(speedY);
+                    if(node.offsetLeft == oTarget.x && node.offsetTop == oTarget.y){
+                        clearInterval(node.timer);
+                        func && func();
+                    }else{
+                        node.style.left = node.offsetLeft + speedX + 'px';
+                        node.style.top = node.offsetTop + speedY + 'px';
+                    }
+                },30);
+
+            }
+
+            function clearEvent() {
+                document.onclick = null;
+                document.onmousemove = null;
+                document.onmousedown = null;
+                document.onmouseup = null;
+                for(var i = 0;i < aBtns.length;i++){
+                    aBtns[i].innerHTML = aBtns[i].innerHTML.replace('(已激活)','');
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <button id="btn1">按鼠标点击位置移动</button>
+    <button id="btn2">按鼠标轨迹移动</button>
+    <div id="pic">
+        <img src="跳跳虎2.jpg">
+    </div>
+</body>
+</html>

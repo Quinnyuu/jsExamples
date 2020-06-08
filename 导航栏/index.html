@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding: 0;}
+        #nav{position: absolute;left: 20%;top:30px;}
+        #nav ul{height: 40px;width: 770px;background: #bfff59;border-radius: 30px;}
+        #nav ul li{height: 30px;width: 100px;border-left: #ffffff 2px groove;float: left;list-style: none;text-align: center;margin-top: 5px;line-height: 30px;}
+        #nav ul li.first{margin-left: 30px;border: none;}
+        #nav ul li a{height: 30px;width: 100px;}
+        #nav ul li a:hover{background: khaki;color: #4d6c26;}
+        #nav .subnav {height: 30px;width:auto !important;white-space:nowrap;color: #4d6c26;font-size: small;background: white;border: #4d6c26 2px solid;border-radius: 30px;display: none;position: absolute;}
+        #nav .subnav span a:hover{text-decoration: #4d6c26 underline;background: white}
+    </style>
+    <script>
+        window.onload = function () {
+            var get = {
+              byId : function (id) {
+                return document.getElementById(id);
+              },
+              byTagName : function (tagName,oParent) {
+                return (oParent || document).getElementsByTagName(tagName);
+              },
+              byClassName : function (className,oParent) {//可用于获取在某一父元素节点下为className的子节点
+                var aClass = [];
+                var aElem = this.byTagName('*',oParent);//找到父元素节点下的所有节点
+                var reClass = new RegExp('(^|)' + className +'(|$)');//正则表达式
+                for(let i = 0;i < aElem.length;i++){
+                    reClass.test(aElem[i].className) && aClass.push(aElem[i]);
+                }
+                return aClass;
+              }
+            };
+
+            var oNav = get.byId('nav');
+            var aLis = get.byTagName('li',oNav);
+            var aSubNavs = get.byClassName('subnav',oNav);
+            var oSubNav = null;
+            var timer = null;
+            for(var i = 1;i <aLis.length;i++){
+                aLis[i].onmousemove = function () {
+                    for(var j = 0;j <aSubNavs.length;j++){
+                        aSubNavs[j].style.display = 'none';
+                    }
+                    //获取该项的子菜单
+                    oSubNav = get.byClassName('subnav',this)[0];
+                    oSubNav.style.display = 'block';
+                    //使子菜单在规定范围内显示
+                    if(oNav.offsetWidth - this.offsetLeft > oSubNav.offsetWidth){
+                        oSubNav.style.left = this.offsetLeft + 'px';
+                    }else{
+                        oSubNav.style.left = oNav.offsetWidth - oSubNav.offsetWidth + 'px';
+                        console.log(oNav.offsetWidth+",,,,,"+oSubNav.offsetWidth+",,,,,"+oNav.offsetLeft+",,,,,"+oSubNav.offsetLeft)
+                    }
+                    clearTimeout(timer);
+                    //阻止事件冒泡（从里到外逐层触发），因为当离开li时会开启settimeout，点击到oSubNav会关闭，因此关闭li的settimeout
+                    oSubNav.onmouseover = function (ev) {
+                        var e = ev || window.event;
+                        e.cancelBubble = true;
+                        clearTimeout(timer);
+                    }
+                }
+                aLis[i].onmouseout = function () {
+                    timer = setTimeout(function () {//延迟开启隐藏
+                        oSubNav.style.display = 'none';
+                    },300);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="nav">
+        <ul>
+            <li class="first"><a>站长之家</a></li>
+            <li>
+                <a>行业资讯</a>
+                <div class="subnav">
+                    <span>
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>收购融资</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp
+                    </span>
+                </div>
+            </li>
+            <li>
+                <a>站长在线</a>
+                <div class="subnav">
+                    <span>
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>收购融资</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp
+                    </span>
+                </div>
+            </li>
+            <li>
+                <a>网站运营</a>
+                <div class="subnav">
+                    <span>
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>收购融资</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp
+                    </span>
+                </div>
+            <li>
+                <a>设计在线</a>
+                <div class="subnav">
+                    <span>
+                            <a>业界动态</a>&nbsp|&nbsp
+                            <a>收购融资</a>&nbsp|&nbsp
+                            <a>业界动态</a>&nbsp|&nbsp
+                            <a>业界动态</a>&nbsp|&nbsp
+                            <a>业界动态</a>&nbsp|&nbsp
+                            <a>业界动态</a>&nbsp|&nbsp
+                            <a>业界动态</a>&nbsp|&nbsp
+                            <a>业界动态</a>&nbsp
+                        </span>
+                </div>
+            </li>
+            <li>
+                <a>网络编程</a>
+                <div class="subnav">
+                    <span>
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>收购融资</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp
+                    </span>
+                </div>
+            </li>
+            <li>
+                <a>服务器</a>
+                <div class="subnav">
+                    <span>
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>收购融资</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp|&nbsp
+                        <a>业界动态</a>&nbsp
+                    </span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

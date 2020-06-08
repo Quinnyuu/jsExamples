@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box{position: relative;margin:10px auto;height: 500px;width: 300px;}
+        #alert{border: #bfff59 3px solid;background: #b7ffd4;height: 80px;margin-top: 10px;display: none;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oLab = document.getElementsByTagName('label')[0];
+            var oDiv = document.getElementById('alert');
+            oLab.onmouseover = function () {
+                oDiv.style.display = 'block';
+            }
+            oLab.onmouseout = function () {
+                oDiv.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <label>
+            <input type="checkbox" id="check">两周内自动登录
+        </label>
+        <div id="alert">为了你的网络安全，请不要在网吧和公用电脑上使用此功能</div>
+    </div>
+</body>
+</html>

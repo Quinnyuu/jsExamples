@@ -1,0 +1,13 @@
+#button-bar{
+    width: 500px;
+    position: relative;
+    margin: 100px auto;
+    text-align: center;
+    }
+#box{
+    height: 100px;
+    width: 100px;
+    background: lightblue;
+    position: relative;
+    margin: 50px auto;
+}

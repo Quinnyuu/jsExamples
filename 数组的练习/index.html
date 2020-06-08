@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .c{height: 50px;width: 1000px;background: #b7ffd4;margin: 20px;}
+    </style>
+    <script>
+        window.onload = function () {
+            var aDivs = document.getElementsByClassName('c');
+            var aBtns = document.getElementsByTagName('button');
+            var s1 = s2 = true;
+            var arr1 = aDivs[0].innerHTML.split(',');
+            var arr2 = aDivs[1].innerHTML.split(',');
+            var arr3 = aDivs[2].innerHTML.split(',');
+
+            //删除january
+            aBtns[0].onclick = function () {
+                if(s1){
+                    arr1.shift();
+                    this.innerHTML = this.innerHTML.replace('删除','添加');
+                    s1 = false;
+                }else{
+                    arr1.unshift('januray');
+                    this.innerHTML = this.innerHTML.replace('添加','删除');
+                    s1 = true;
+                }
+                aDivs[0].innerHTML = arr1.join(',');
+
+            }
+
+            //删除December
+            aBtns[1].onclick = function () {
+                if(s2){
+                    arr1.pop();
+                    this.innerHTML = this.innerHTML.replace('删除','添加');
+                    s2 = false;
+                }else{
+                    arr1.push('december');
+                    this.innerHTML = this.innerHTML.replace('添加','删除');
+                    s2 = true;
+                }
+                aDivs[0].innerHTML = arr1.join(',');
+            }
+
+            //复制
+            aBtns[2].onclick = function () {
+                var newArr = arr2.concat(arr2);
+                aDivs[1].innerHTML += ',' + newArr.join(',');
+            }
+
+            //还原
+            aBtns[3].onclick = function () {
+                arr2.length = 10;
+                aDivs[1].innerHTML = arr2.join(',');
+            }
+
+            //还原
+            aBtns[4].onclick = function () {
+                var arr3 = ['red','yellow','blue','green','gray','black','white'];
+                aDivs[2].innerHTML = arr3.join(',');
+            }
+
+            //删除前三项
+            aBtns[5].onclick = function () {
+                arr3.splice(0,3);
+                aDivs[2].innerHTML = arr3.join(',');
+            }
+            //删除第二至第三项
+            aBtns[6].onclick = function () {
+                arr3.splice(1,2);
+                aDivs[2].innerHTML = arr3.join(',');
+            }
+            //在第二项后面插入（orange）
+            aBtns[7].onclick = function () {
+                arr3.splice(1,0,'orange');
+                aDivs[2].innerHTML = arr3.join(',');
+            }
+            //替换第二至第三项
+            aBtns[8].onclick = function () {
+                arr3.splice(1,2,'orange','purple');
+                aDivs[2].innerHTML = arr3.join(',');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <div class="c">'januray','ferbary','march','april','may','june','july','august','september','octomber','november','december'</div>
+        <button >删除january[i]</button>
+        <button >删除December[i]</button>
+    </div>
+    <div>
+        <div class="c">0,1,2,3,4,5,6,7,8,9</div>
+        <button >复制</button>
+        <button >还原</button>
+    </div>
+    <div>
+        <div class="c">red,yellow,blue,green,gray,black,white</div>
+        <button >还原</button>
+        <button >删除前三项</button>
+        <button >删除第二至第三项</button>
+        <button >在第二项后面插入（orange）</button>
+        <button >替换第二至第三项</button>
+    </div>
+</body>
+</html>

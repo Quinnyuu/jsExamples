@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box{height: 500px;width: 500px;margin: 50px auto;position: relative;}
+        label{position:absolute;margin: 10px;}
+        #btn{position:absolute;margin: 20px 10px 10px; }
+        #alert{height: 100px;width: 300px;margin: 10px;position: absolute;margin: 50px 10px 10px;color: #00c6cd;font-size: larger;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oBtn = document.getElementById('btn');
+            var oAlert = document.getElementById('alert');
+            var oTxt = document.getElementsByTagName('input')[0];
+            var oValue = oTxt.value;
+            oValue = '1,2,3,4,5,6,7,8,9';
+            oBtn.onclick = function () {
+                var arr = oValue.split(',');
+                var res = add(arr);
+                oAlert.innerHTML = res;
+            }
+        }
+
+        function add(arr) {
+            var res = 0;
+            for(let i in arr){
+                res += parseInt(arr[i]);
+            }
+            return res;
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <label>
+            <input type="text" id="txt" placeholder="1,2,3,4,5,6,7,8,9">
+            <span>输入数字求和，数字之间用,分隔</span>
+        </label><br/>
+        <button id="btn">求和</button>
+        <div id="alert"></div>
+    </div>
+</body>
+</html>

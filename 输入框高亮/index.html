@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box{height: 200px;width: 300px;position: relative;margin: 20px auto;border: #bfff59 2px dashed;}
+        #box p{height: 50px;width: 100%;position: relative;margin: 10px;}
+        #box p label{height: 30px;width: 50px;margin: 10px;}
+        #box p input{width: 150px;height: 30px;position: absolute;left: 80px;background: url("background.jpg");border: 0;}
+        #box p .text-high{background-position: 0 -30px;}
+        #btn{height: 30px;width: 200px;margin-left: 50px;border: #4d6c26;background: #acdc60;cursor: pointer;}
+    </style>
+    <script>
+        //主要通过导入图片，调整background-position
+        window.onload = function () {
+            var aInputs = document.getElementsByTagName('input');
+            for(var i = 0;i < aInputs.length;i++) {
+                aInputs[i].onfocus = function () {
+                    this.className = 'text-high';
+                }
+                aInputs[i].onblur = function () {
+                    this.className = '';
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <p>
+            <label id="first">用户名：</label><input type="text" id="username">
+        </p>
+        <p>
+            <label>密 码：</label><input type="text" id="password">
+        </p>
+        <button id="btn">提交</button>
+    </div>
+</body>
+</html>

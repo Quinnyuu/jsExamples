@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0}
+        #box{position: relative;margin: 20px auto;height: 600px;width: 300px;}
+        #pic{width: 300px;height: 550px;position: absolute;margin: 0}
+        #pic img{width: 100%;height: 100%;}
+        #box p{width: 80%;height: 30px;background: #666666;position: absolute;bottom: 130px;left: 30px;}
+        #box span{width: 50px;height: 30px;background: #9ee3e7;display: block;position: absolute;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oSlider = document.getElementsByTagName('span')[0];
+            var oTarget = document.getElementsByTagName('p')[0];
+            var oImg = document.getElementsByTagName('img')[0];
+            var offsetX = 0;
+            var maxX = oTarget.offsetWidth - oSlider.offsetWidth;
+            var timer = null;
+            oSlider.onmousedown = function (ev) {
+                var e = ev || window.event;
+                offsetX = e.clientX - oSlider.offsetLeft;
+                document.onmousemove = function (ev) {
+                    var e = ev ||window.event;
+                    l = e.clientX - offsetX;
+                    if(l <= 0) l = 0;
+                    if(l >= maxX) {
+                        oImg.src = 'img/手机_01.jpg';
+                        oTarget.style.display = 'none';
+                    }
+                    oSlider.style.left = l + 'px';
+                }
+            }
+            oSlider.onmouseup = function (ev) {
+                document.onmousemove = null;
+                document.onmouseup = null;
+                if(oSlider.offsetLeft >= maxX/2){
+                    timer = setInterval(function () {
+                        var speed = (maxX - oSlider.offsetLeft) /2;
+                        if(oSlider.offsetLeft == maxX){
+                            clearInterval(timer);
+                            oImg.src = 'img/手机_01.jpg';
+                            oTarget.style.display = 'none';
+                        }else{
+                            oSlider.style.left = speed + oSlider.offsetLeft + 'px';
+                        }
+                    },30);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div id="pic"><img src="img/手机_02.jpg"> </div>
+        <p>
+            <span></span>
+        </p>
+    </div>
+</body>
+</html>

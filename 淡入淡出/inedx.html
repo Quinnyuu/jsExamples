@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #box{height: 444px;width: 888px;border: #4d6c26 1px solid;position: relative;margin: 30px auto;}
+        .pic{height: 200px;width: 200px;border: navy 1px solid;margin: 10px;float: left;}
+        .pic img{height: 100%;width: 100%;opacity: 0.3;}
+    </style>
+    <script>
+        window.onload = function () {
+            var aDivs = document.getElementsByClassName('pic');
+            var aImgs = document.getElementsByTagName('img');
+            for(var i = 0;i < aDivs.length;i++) {
+                var newImg = document.createElement('img');
+                newImg.src = 'img/' + (i + 1) + '.jpg';
+                aDivs[i].appendChild(newImg);
+            }
+            for(let i in aDivs){
+                aDivs[i].onmouseover= function () {
+                    start(100,aImgs[i]);
+                }
+                aDivs[i].onmouseout= function () {
+                    start(30,aImgs[i]);
+                }
+            }
+        }
+        var alpha = 0;
+        function start(iTarget,node) {
+            clearInterval(node.timer);
+            node.timer = setInterval(function () {
+                var speed = 5;
+                speed = alpha < iTarget ? speed : -speed;
+                if(alpha == iTarget){
+                    clearInterval(node.timer);
+                }else{
+                    alpha += speed;
+                    node.style.opacity = alpha / 100;
+                }
+            },30);
+
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+    </div>
+</body>
+</html>

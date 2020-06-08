@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #clock{height: 150px;width: 300px;background: #4d6c26;position: relative;margin: 10px auto;color: white}
+        #clock input{width: 100px;height: 30px;margin:30px 10px;}
+        #clock #minute{margin-left: 20px;}
+        #btn{height: 40px;width: 80%;margin-left: 30px;font-size: 28px;border-radius: 30px;}
+        #btn.start{background: khaki no-repeat;border: #fffdd9 1px groove;color: #34421f;}
+        #btn.end{background: #ff4747 no-repeat;border: #ffddd9 1px groove;color: #ffffff;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oBtn = document.getElementById('btn');
+            var oLabel = document.getElementsByTagName('label')[0];
+            var aInputs = document.getElementsByTagName('input');
+            var timer = null;
+            oBtn.onclick = function () {
+                if(oBtn.className == 'start'){
+                    oLabel.innerHTML = '结束';
+                    oBtn.className = 'end';
+                    clearInterval(timer);
+                    var count = parseInt(aInputs[0].value) * 60 + parseInt(aInputs[1].value);
+                    timer = setInterval(function () {
+                        count--;
+                        var minute = parseInt(count / 60);
+                        var second = parseInt(count % 60);
+                        aInputs[0].value = format(minute).toString();
+                        aInputs[1].value = format(second).toString();
+                        if(count <= 0){
+                            clearInterval(timer);
+                            oLabel.innerHTML = '开始';
+                            oBtn.className = 'start';
+                            aInputs[0].value = '01';
+                            aInputs[1].value = '40';
+                        }
+                    },1000);
+                }else{
+                    clearInterval(timer);
+                    oLabel.innerHTML = '开始';
+                    oBtn.className = 'start';
+                }
+            }
+            function format(num) {
+               return  num = num < 10 ? ('0' + num) : num;
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="clock">
+    <input type="text" id="minute" value="01">分
+    <input type="text" id="second" value="40">秒
+    <button id="btn" class="start"><label>开启</label></button>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{margin: 0;padding: 0}
+        #smallicon{position: relative;margin: 20px auto;height: 300px;width: 300px;}
+        #smallicon img{height: 100%;}
+        #bigicon{height: 600px;width: 600px;position: absolute;display: none;}
+        #bigicon img{height: 100%;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oBig = document.getElementById('bigicon');
+            var oSmall = document.getElementById('smallicon');
+            oSmall.onmouseover = function () {
+                oBig.style.display = "block";
+            }
+            oSmall.onmouseout = function () {
+                oBig.style.display = "none";
+            }
+
+            oSmall.onmousemove = function (ev) {
+                var e = ev || window.event;
+                var winWidth = document.documentElement.clientWidth || document.body.clientWidth;
+                var iWidth = winWidth - oBig.offsetWidth;
+                oBig.style.left = oBig.offsetLeft < iWidth ? e.clientX + 5 + 'px': e.clientX - oBig.offsetWidth - 5 + 'px';
+                oBig.style.top = e.clientY + 5 + 'px';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="smallicon"><img src="8.jpg"></div>
+    <div id="bigicon"><img src="8.jpg"></div>
+</body>
+</html>

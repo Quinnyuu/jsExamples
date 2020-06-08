@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #box{width: 500px;height: 500px;border: #4d6c26 1px solid;position: relative;margin: 30px auto;}
+        #ul1{width: 100%;height: 30px;background: #acdc60;position: absolute;left: 0;top:0;}
+        #ul1 li{list-style: none;float: left;width: 100px;height:30px;color: white;text-align: center;}
+        #content{height: 470px;width: 100%;background: #b7ffd4;position: absolute;left: 0;top:30px;}
+        .current{background: gold;color: #4d6c26 !important;}
+    </style>
+    <script>
+        window.onload = function () {
+            var arr = ['这是第一课的内容','这是第二课的内容','这是第三课的内容'];
+            var oUl = document.getElementById('ul1');
+            var aLis = oUl.getElementsByTagName('li');
+            var oDiv = document.getElementById('content');
+            for(var i in aLis){
+                aLis[i].index = i;
+                aLis[i].onclick = function () {
+                    for(let j in aLis){
+                        aLis[j].className = '';
+                    }
+                    this.className = 'current';
+                    oDiv.innerHTML = arr[this.index];
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <ul id="ul1">
+            <li class="current">第一课</li>
+            <li>第二课</li>
+            <li>第三课</li>
+        </ul>
+        <div id="content">这是第一课的内容</div>
+    </div>
+</body>
+</html>

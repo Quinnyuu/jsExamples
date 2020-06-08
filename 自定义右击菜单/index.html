@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{padding:0;margin: 0;}
+        #ul1{position: absolute;width: 100px;width: auto;background: #bfff59;border-left: #ffffff 1px solid;border: #e0e0e0 1px solid;border-radius: 5px;display: none;}
+        #ul1 li{height: 30px;width: 100px;border-bottom: #ffffff 1px solid;list-style: none;cursor: pointer;}
+        #ul1 li.current{background: #ebffc0;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oMenu = document.getElementById('ul1');
+            var aLis = oMenu.getElementsByTagName('li');
+            document.oncontextmenu = function (ev) {
+                var e = ev || window.event;
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                oMenu.style.display = 'block';
+                oMenu.style.left = e.clientX + 'px';
+                oMenu.style.top = e.clientY + scrollTop + 'px';
+                return false;
+            }
+            for(var i = 0; i < aLis.length;i++){
+                aLis[i].onmouseover = function () {
+                    this.className = 'current';
+                }
+                aLis[i].onmouseout = function () {
+                    this.className = '';
+                }
+                aLis[i].onclick = function () {
+                    oMenu.style.display = 'none';
+                }
+            }
+            document.onclick = function () {
+                oMenu.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <ul id="ul1">
+        <li class="current">复制</li>
+        <li>剪切</li>
+        <li>粘贴</li>
+        <li>全选</li>
+    </ul>
+</body>
+</html>

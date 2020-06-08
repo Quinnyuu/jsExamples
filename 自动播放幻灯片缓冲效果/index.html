@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #box{height: 500px;width: 600px;position: relative;margin: 30px auto;background: #ebffc0;}
+        #pics{height: 400px;width: 400px;position: absolute;top:46px;left: 50px;overflow: hidden;border: #ffd02d 2px solid;}
+        #pics ul{position: absolute;left: 0;top: 0;}
+        #pics li{list-style: none;margin: 0;height: 400px;width: 400px;}
+        #pics li img{height: 100%;width: 100%;margin: 0}
+        #count{height: 500px;width: 100px;position: absolute;left: 480px;}
+        #count li{list-style: none;margin: 20px;height: 60px;width: 60px;background: #64cd53;text-align: center;line-height: 60px;color: #dcf3b8;font-size: 30px;border-radius: 50px;}
+        #count li.current{background: gold}
+    </style>
+    <script>
+        window.onload = function () {
+            var oBox = document.getElementById('box');
+            var oPic = document.getElementById('pics');
+            var oCount = document.getElementById('count');
+            var oUl = oPic.getElementsByTagName('ul')[0];
+            var aImgs = oPic.getElementsByTagName('img');
+            var aBtns = oCount.getElementsByTagName('li');
+            var timer = null;
+            var play = null;
+            var index = 0;
+            var toBorder = true;
+
+
+            play = setInterval(init,3000);
+
+            //同于变速移动每一格
+            function startMove(iTarget) {
+                clearInterval(timer);
+                timer = setInterval(function () {
+                    var speed = (iTarget - oUl.offsetTop) / 10;
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                    oUl.offsetTop == iTarget ? clearInterval(timer) : oUl.style.top = oUl.offsetTop + speed + 'px';
+                    console.log(iTarget + '  ' + oUl.offsetTop)
+                },30);
+            }
+            //设置按钮与鼠标一起变化
+            function cutOver() {
+                for(var i in aBtns){
+                    aBtns[i].className = '';
+                }
+                aBtns[index].className = 'current';
+                startMove(-(index * aImgs[0].offsetHeight));
+            }
+
+            function init(){
+                if(index >= aImgs.length -1){
+                    toBorder = false;
+                }
+                if(index <= 0){
+                    toBorder = true;
+                }
+                toBorder ? index++ : index--;
+                console.log(index);
+                cutOver();
+            }
+
+
+
+            for (var i = 0;i < aBtns.length;i++){
+                aBtns[i].index = i;
+                aBtns[i].onmouseover = function () {
+                    for(var j in aBtns){
+                        aBtns[j].className = '';
+                    }
+                    this.className = 'current';
+                    index = this.index;
+                    cutOver();
+                    clearInterval(play);
+                }
+                aBtns[i].onmouseout = function () {
+                    play = setInterval(init,3000);
+                }
+            }
+
+
+
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div id="pics">
+            <ul>
+                <li><img src="img/1.jpg" ></li>
+                <li><img src="img/2.jpg" ></li>
+                <li><img src="img/3.jpg" ></li>
+                <li><img src="img/4.jpg" ></li>
+                <li><img src="img/5.jpg" ></li>
+                <li><img src="img/6.jpg" ></li>
+            </ul>
+        </div>
+        <div id="count">
+            <ul>
+                <li class="current">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

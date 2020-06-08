@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>、
+    <style>
+        *{margin: 0;padding: 0;}
+        #box{height: 444px;width: 888px;border: #4d6c26 1px solid;position: relative;margin: 30px auto;background: #acdc60;}
+        .pic{height: 200px;width: 200px;border: navy 1px solid;margin: 10px;float: left;background: #e0e0e0;}
+        a{height: 100%;width: 100%;position: relative;margin: 10px auto;}
+        .pic img{height: 250px;width: 250px;position: relative;left:-35px;top:-35px;display: none;}
+    </style>
+    <script>
+        window.onload = function () {
+            var aDivs = document.getElementsByClassName('pic');
+            var aImgs = document.getElementsByTagName('img');
+            var count = 1;
+            for (var i = 0; i < aDivs.length; i++) {
+                var newImg = document.createElement('img');
+                var aA = document.createElement('a');
+                aA.innerHTML = '图' + (i + 1);
+                newImg.src = 'img/' + (i + 1) + '.jpg';
+                aDivs[i].appendChild(aA);
+                aDivs[i].appendChild(newImg);
+            }
+            for(let i in aDivs){
+                aDivs[i].onmouseover = function () {
+                    for (let j = 0;j < aDivs.length;j++){
+                        aImgs[j].style.display = 'none';
+                    }
+                    aImgs[i].style.display = 'block';
+                    aImgs[i].style.zIndex = count++;
+                }
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <div id="box">
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+        <div class="pic"></div>
+    </div>
+</body>
+</html>

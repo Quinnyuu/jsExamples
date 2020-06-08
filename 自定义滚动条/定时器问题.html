@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function () {
+            var oBtn = document.getElementById('btn');
+            var oBtn1 = document.getElementById('btn1');
+            var count1 = 0;
+            var count2 = 0;
+            var timer = timer1 =  null;
+            oBtn.onclick = function(){
+                timer = setInterval(function () {
+                    count1++;
+                    console.log('父定时器 ： ' + count1);
+                    timer1 = setInterval(function () {
+                        count2++;
+                        console.log('子定时器 ： ' + count2);
+                    },2500)
+                },3000)
+            }
+            oBtn1.onclick = function () {
+                clearInterval(timer);
+                clearInterval(timer1);
+            }
+        }
+    </script>
+</head>
+<body>
+    <button id="btn">点击</button>
+    <button id="btn1">点击</button>
+</body>
+</html>

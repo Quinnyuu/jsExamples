@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        #calculator{height: 550px;width: 360px;position: relative;margin: 30px auto;background: #4d6c26;overflow: hidden;}
+        #formula{width: 360px;height: 40px;background: #acdc60;font-size: 20px;line-height:40px;text-align: right;}
+        #show{height: 60px;background: #acdc60;font-size: 30px;line-height:60px;text-align: right;}
+        #key{width: 100%;line-height:80px;text-align: center;color: #4d6c26;font-size: 30px;}
+        #key li{list-style: none;float: left;height: 80px;width: 80px;background: khaki;margin: 5px;}
+        #key li.btn1{background: #ffffff;}
+        #key li.btn2{height: 170px;line-height:160px;position: absolute;right: 0px;bottom: 0px;}
+        #key li.btn3{width: 170px;}
+    </style>
+    <script>
+        window.onload = function () {
+            var oUl = document.getElementById('key');
+            var aLis = oUl.getElementsByTagName('li');
+            var oFormula = document.getElementById('formula');
+            var oInput = document.getElementById('show');
+            var s = false;//用于判断是否能输入,当前输入为符号（符号后面跟符号）就不能输入
+            for(var i = 0;i < aLis.length;i++){
+                aLis[i].onclick = function () {
+                    switch (this.innerHTML) {
+                        case 'C':oInput.innerHTML = '0';
+                                 oFormula.innerHTML = '';break;
+                        case '%':count('%');break;
+                        case '÷':count('/');break;
+                        case '×':count('*');break;
+                        case '+':count('+');break;
+                        case '-':count('-');break;
+                        case '=':
+                            s || (oFormula.innerHTML += oInput.innerHTML);
+                            oInput.innerHTML = eval(oFormula.innerHTML.replace((/\%\/\*\-\+/,'')));
+                            oInput.innerHTML.substr(0,10).replace('NaN',0);
+                            break;
+                        case '.':
+                            if(oInput.innerHTML.search(/[\%\/\*\-\+]/) != -1);break;
+                        default:
+                            s && (oInput.innerHTML = 0,oFormula.innerHTML = '',s = false);
+                            oInput.innerHTML.length < 10 && (oInput.innerHTML =(oInput.innerHTML + this.innerHTML).replace(/^[0\%\/\*\-\+](\d)/,'$1'));
+                    }
+                }
+            }
+            function count(a) {
+                if(s){//即上一位为数字
+                    oInput.innerHTML = a;
+                    oFormula += oInput.innerHTML;
+                    s = false;
+                }else{//上一位为符号就修改符号
+                    //修改oInput中的值
+                    /[\%\/\*\-\+]$/.test(oInput.innerHTML) || (oFormula += oInput.innerHTML);//两个都执行
+                    oInput.value = a;
+                    //修改oFormula中完整式子的值
+                    /[\%\/\*\-\+]$/.test(oFormula.innerHTML) || (oFormula += oInput.innerHTML);
+                    oFormula.innerHTML = oFormula.innerHTML.slice(-1) != a ? oFormula.innerHTML.replace((/.$/,a)) : oFormula.innerHTML;//若新输入的符号与原来不相等就改变
+                }
+            }
+        }
+
+
+    </script>
+</head>
+<body>
+    <div id="calculator">
+        <div id="formula"></div>
+        <div id="show">0</div>
+        <ul id="key">
+            <li class="btn1">C</li>
+            <li class="btn1">%</li>
+            <li class="btn1">÷</li>
+            <li class="btn1">×</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li class="btn1">-</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li class="btn1">+</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li class="btn3">0</li>
+            <li class="btn1">.</li>
+            <li class="btn2">=</li>
+        </ul>
+    </div>
+</body>
+</html>

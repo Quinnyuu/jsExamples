@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <script src="js/获取id,classname,tagname.js"></script>
+    <script src="js/添加事件监听器.js"></script>
+    <script src="js/css方法.js"></script>
+    <script>
+        window.onload = function () {
+            var oName = get.byId('username');
+            var oNameBox = get.byId('namebox');
+            var aImgs = get.byTagName('img',oNameBox);
+            var oBtn = get.byTagName('button',get.byId('tr'))[0];
+            var oCountBox = get.byClassName('tip',get.byId('tr'))[0];
+            var oCount = get.byClassName('count',get.byId('tr'))[0];
+            var oContent = get.byId('content');
+            var oUl = get.byTagName('ul',get.byId('list'))[0];
+            var aLis = get.byTagName('li',oUl);
+            var oMain = get.byId('main');
+            var oList = get.byId('list');
+            var aDelete = get.byTagName('a',oList);
+            var count = 140;
+            var canSend = false;
+            var timer = null;
+            var len = aLis.length;
+            //初始化
+            oMain.style.height = oList.offsetTop + oList.offsetHeight + 10 + 'px';
+            contentLimit();
+            iHover();
+            iDelete();
+
+            for(var i = 0;i < aImgs.length;i++){
+                aImgs[i].onclick = function () {
+                    for(var j = 0;j < aImgs.length;j++){
+                        aImgs[j].className = '';
+                    }
+                    this.className = 'picked';
+                }
+            }
+
+
+            //给广播按钮添加属性，可通过点击或Ctrl+enter发送
+            EventUtil.addEvent(oBtn,'click',send);
+            EventUtil.addEvent(document,'keydown',function (ev) {
+                var e = ev || window.event;
+                if(e.ctrlKey && e.keyCode == 13){
+                    send();
+                }
+            })
+
+            function send() {
+                if(oName.value == ''){
+                    alert('姓名不能为空');
+                    oName.focus();
+                }else if(!/^[\u4e00-\u9fa5\w]{2,10}$/.test(oName.value)){
+                    alert('姓名至少由2-8位数字，字母,汉字或下划线组成');
+                    oName.focus();
+                }else if(oContent.value == ''){
+                    alert('请说点什么吧');
+                    oContent.focus();
+                }else if(!canSend){
+                    alert('您的内容已超出限制');
+                    oContent.focus();
+                }else {
+                    var newLi = document.createElement('li');
+                    newLi.className = 'clearfix';
+                    var date = new Date();
+                    var time = format(date.getMonth() + 1) + '月' + format(date.getDate()) + '日' + format(date.getHours()) + '：' + format(date.getMinutes()) + '：' + format(date.getSeconds());
+                    newLi.innerHTML = '<div class="upic"> <img src=' + get.byClassName('picked',get.byId('namebox'))[0].src
+                        + '> </div> <div class="user-content"> <p class="user">' + oName.value
+                        + '</p> <p class="ucontent">' + oContent.value
+                        + '</p> <p class="date">' + time + '</p> <a class="delete"> 删除 </a> </div>';
+                    aLis,length = 0 ? oUl.appendChild(newLi) : oUl.insertBefore(newLi,aLis[0]);//添加节点
+                    len ++;
+                    var value = newLi.innerHTML
+                    //使其淡入效果出现
+                    var alpha = 0;
+                    css.css(newLi,'opacity','0');
+                    clearInterval(timer);
+                    timer = setInterval(function () {
+                        if(alpha >= 100){
+                            clearInterval(timer);
+                        }else{
+                            alpha += 10;
+                            newLi.style.opacity = alpha / 100;
+                                }
+                    },80);//变明显
+                    oName.value = '';
+                    oContent.value = '';
+                    oMain.style.height = oList.offsetTop + oList.offsetHeight + 10 + 'px';
+                    contentLimit();
+                    iHover();
+                    iDelete();
+                }
+
+            }
+
+            //用于转换日期的方法
+            function format(num){
+                return num.toString().replace(/^(\d)$/,'0$1');
+            }
+
+            //给发表内容添加字数限制
+            EventUtil.addEvent(oContent,'keyup',contentLimit);
+
+            function contentLimit() {
+                var iLen = oContent.value.length;
+                oCount.innerHTML = count - iLen;
+                if(count - iLen <= 0){
+                    canSend = false;
+                    oCountBox.innerHTML = '已经超出了<span class="count" style="color: #ff4d4d">'+ (iLen - count) + '</span>个字';
+                }else{
+                    canSend = true;
+                }
+            }
+
+
+            //栏目添加鼠标滑过效果
+            function iHover() {
+                for(var i = 0;i < aLis.length;i++){
+                    aLis[i].index = i;
+                    EventUtil.addEvent(aLis[i],'mouseover',function () {
+                        css.css(this,'background','#fffef3');
+                        aDelete[this.index].style.display = 'block';
+                    })
+                    EventUtil.addEvent(aLis[i],'mouseout',function () {
+                        css.css(this,'background','white');
+                        aDelete[this.index].style.display = 'none';
+                    })
+                }
+            }
+
+            //删除操作
+            function iDelete() {
+                var aA = get.byClassName('delete',oUl);
+                for(var i = 0;i < aA.length;i++){
+                    aA[i].onclick = function () {
+                        var oParent = this.parentNode.parentNode;//找到Li节点
+                        //使其淡入效果出现
+                        var alpha = 100;
+                        css.css(oParent,'opacity','1');
+                        clearInterval(timer);
+                        timer = setInterval(function () {
+                            if(alpha <= 0){
+                                clearInterval(timer);
+                            }else{
+                                alpha -= 10;
+                                newLi.style.opacity = alpha / 100;
+                            }
+                        },80);
+                        oUl.removeChild(oParent);
+                        iHover();
+                        oMain.style.height = oList.offsetTop + oList.offsetHeight + 10 + 'px';
+                    }
+                }
+            }
+
+
+        }
+    </script>
+</head>
+<body>
+    <div id="main">
+        <div id="sub">
+            <h2>来，说说你在做什么，在想什么</h2>
+            <div id="namebox">
+                <input type="text" id="username">
+                <span>
+                    <img src="img/1.jpg" class="picked">
+                    <img src="img/2.jpg">
+                    <img src="img/4.jpg">
+                    <img src="img/5.jpg">
+                    <img src="img/7.jpg">
+                    <img src="img/8.jpg">
+                </span>
+            </div>
+            <textarea id="content"></textarea>
+            <div id="tr">
+                <p class="tip">还能输入<span class="count">140</span>个字</p>
+                <button>广播</button>
+            </div>
+        </div>
+        <div id="list">
+            <h3>大家在说</h3>
+            <ul>
+                <li class="clearfix"><!--清除浮动的方法-->
+                    <div class="upic">
+                        <img src="img/8.jpg">
+                    </div>
+                    <div class="user-content">
+                        <p class="user">小秦</p>
+                        <p class="ucontent">我要瘦成闪电，变成学霸</p>
+                        <p class="date">05月11日21：20：21</p>
+                        <a class="delete">删除</a>
+                    </div>
+                </li>
+                <li class="clearfix"><!--清除浮动的方法-->
+                    <div class="upic">
+                        <img src="img/4.jpg">
+                    </div>
+                    <div class="user-content">
+                        <p class="user">王fi</p>
+                        <p class="ucontent">冷漠。。。</p>
+                        <p class="date">05月11日21：22：10</p>
+                        <a class="delete">删除</a>
+                    </div>
+                </li>
+                <li class="clearfix"><!--清除浮动的方法-->
+                    <div class="upic">
+                        <img src="img/2.jpg">
+                    </div>
+                    <div class="user-content">
+                        <p class="user">小黄</p>
+                        <p class="ucontent">做梦吧你</p>
+                        <p class="date">05月11日22：00：00</p>
+                        <a class="delete">删除</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
